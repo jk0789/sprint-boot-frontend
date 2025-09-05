@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import ProductListComponent from "./components/ProductListComponent";
+import AddProductComponent from "./components/AddProductComponent";
+import ProductSuggestions from "./components/ProductSuggestions";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className={darkMode ? "bg-dark text-white min-vh-100" : "bg-light text-dark min-vh-100"}>
+        <div className="container py-4">
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h1>My Product App</h1>
+            <button
+              className="btn btn-outline-secondary"
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
+            </button>
+          </div>
+
+          {/* Keep all features accessible here */}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <AddProductComponent />
+                  <hr />
+                  <ProductListComponent allowEdit={true} />
+                  <hr />
+                  <ProductSuggestions />
+                </>
+              }
+            />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
